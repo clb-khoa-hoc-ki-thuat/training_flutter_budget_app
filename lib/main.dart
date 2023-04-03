@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
+}
+
+class Transaction {
+  String description;
+  double amount;
+  String date;
+
+  Transaction(this.description, this.amount, this.date);
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+
+  var transaction = Transaction('Ăn sáng', 30, '08/04/2023');
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +31,10 @@ class MyApp extends StatelessWidget {
         body: Card(
           child: ListTile(
             leading: CircleAvatar(
-              child: Text('30k'),
+              child: Text('${transaction.amount}k'),
             ),
-            title: Text('Ăn sáng'),
-            subtitle: Text('08/04/2023'),
+            title: Text(transaction.description),
+            subtitle: Text(transaction.date),
           ),
         ),
       ),
