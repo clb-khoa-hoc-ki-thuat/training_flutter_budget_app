@@ -18,7 +18,15 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: Text('Budget App'),
         ),
-        body: Text('Hello các bạn'),
+        body: Card(
+          child: ListTile(
+            leading: CircleAvatar(
+              child: Text('30k'),
+            ),
+            title: Text('Ăn sáng'),
+            subtitle: Text('08/04/2023'),
+          ),
+        ),
       ),
     );
   }
