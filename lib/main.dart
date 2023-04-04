@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
             leading: CircleAvatar(
               child: Text('30k'),
             ),
-            title: Text('Ăn sáng'),
+            title: Text('Mẹ cho'),
             subtitle: Text('08/04/2023'),
           ),
         ),
