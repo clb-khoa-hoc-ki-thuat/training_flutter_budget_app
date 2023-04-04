@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
     Transaction('Mẹ cho', 30, '08/04/2023'),
     Transaction('Ba cho', 40, '09/04/2023'),
     Transaction('Ăn sáng', -25, '09/04/2023'),
+    Transaction('Ăn trưa', -35, '09/04/2023'),
   ];
 
   @override
@@ -33,35 +34,19 @@ class MyApp extends StatelessWidget {
           title: Text('Budget App'),
         ),
         body: Column(
-          children: [
-            Card(
-              child: ListTile(
-                leading: CircleAvatar(
-                  child: Text('${transactionList[0].amount}k'),
+          children: transactionList
+              .map(
+                (transaction) => Card(
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      child: Text('${transaction.amount}k'),
+                    ),
+                    title: Text(transaction.description),
+                    subtitle: Text(transaction.date),
+                  ),
                 ),
-                title: Text(transactionList[0].description),
-                subtitle: Text(transactionList[0].date),
-              ),
-            ),
-            Card(
-              child: ListTile(
-                leading: CircleAvatar(
-                  child: Text('${transactionList[1].amount}k'),
-                ),
-                title: Text(transactionList[1].description),
-                subtitle: Text(transactionList[1].date),
-              ),
-            ),
-            Card(
-              child: ListTile(
-                leading: CircleAvatar(
-                  child: Text('${transactionList[2].amount}k'),
-                ),
-                title: Text(transactionList[2].description),
-                subtitle: Text(transactionList[2].date),
-              ),
-            ),
-          ],
+              )
+              .toList(),
         ),
       ),
     );
