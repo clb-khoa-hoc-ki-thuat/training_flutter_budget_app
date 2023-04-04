@@ -33,20 +33,37 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: Text('Budget App'),
         ),
-        body: Column(
-          children: transactionList
-              .map(
-                (transaction) => Card(
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      child: Text('${transaction.amount}k'),
+        body: Container(
+          padding: EdgeInsets.all(12),
+          child: Column(
+            children: transactionList
+                .map(
+                  (transaction) => Card(
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        backgroundColor: (transaction.amount > 0)
+                            ? Colors.green
+                            : Colors.red,
+                        child: Container(
+                          padding: EdgeInsets.all(4),
+                          child: FittedBox(
+                            child: Text(
+                              '${transaction.amount}k',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      title: Text(transaction.description),
+                      subtitle: Text(transaction.date),
                     ),
-                    title: Text(transaction.description),
-                    subtitle: Text(transaction.date),
                   ),
-                ),
-              )
-              .toList(),
+                )
+                .toList(),
+          ),
         ),
       ),
     );
