@@ -15,7 +15,7 @@ class Transaction {
 class MyApp extends StatelessWidget {
   MyApp({super.key});
 
-  var transaction = Transaction('Ăn sáng', 30, '08/04/2023');
+  var transaction = Transaction('Mẹ cho', 30, '08/04/2023');
 
   @override
   Widget build(BuildContext context) {
