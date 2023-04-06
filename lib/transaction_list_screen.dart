@@ -13,10 +13,10 @@ class TransactionListScreen extends StatefulWidget {
 
 class _TransactionListScreenState extends State<TransactionListScreen> {
   var transactionList = [
-    Transaction('Mẹ cho', 30, '08/04/2023'),
-    Transaction('Ba cho', 40, '09/04/2023'),
-    Transaction('Ăn sáng', -25, '09/04/2023'),
-    Transaction('Ăn trưa', -35, '09/04/2023'),
+    Transaction('1', 'Mẹ cho', 30, '08/04/2023'),
+    Transaction('2', 'Ba cho', 40, '09/04/2023'),
+    Transaction('3', 'Ăn sáng', -25, '09/04/2023'),
+    Transaction('4', 'Ăn trưa', -35, '09/04/2023'),
   ];
 
   @override
@@ -34,11 +34,16 @@ class _TransactionListScreenState extends State<TransactionListScreen> {
                 ),
               )
                   .then((value) {
+                var id =
+                    (int.parse(transactionList[transactionList.length - 1].id) +
+                            1)
+                        .toString();
                 var amount = value['amount'];
                 var date = value['date'];
                 var description = value['description'];
 
                 var newTransaction = Transaction(
+                  id,
                   description,
                   amount,
                   date,
@@ -78,6 +83,18 @@ class _TransactionListScreenState extends State<TransactionListScreen> {
                     ),
                     title: Text(transaction.description),
                     subtitle: Text(transaction.date),
+                    trailing: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          transactionList
+                              .removeWhere((t) => transaction.id == t.id);
+                        });
+                      },
+                      icon: Icon(
+                        Icons.delete,
+                        color: Colors.red,
+                      ),
+                    ),
                   ),
                 ),
               )
