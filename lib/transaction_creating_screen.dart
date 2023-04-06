@@ -7,11 +7,59 @@ class TransactionCreatingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var amountController = TextEditingController();
+    var descriptionController = TextEditingController();
+    var dateController = TextEditingController();
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Thêm thu chi'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              var amountText = amountController.text;
+              var dateText = dateController.text;
+              var descriptionText = descriptionController.text;
+
+              Navigator.of(context).pop({
+                'amount': double.parse(amountText),
+                'date': dateText,
+                'description': descriptionText,
+              });
+            },
+            icon: Icon(
+              Icons.check,
+            ),
+          ),
+        ],
       ),
-      body: Text('Trang thêm thu chi'),
+      body: Column(
+        children: [
+          Text('Số tiền'),
+          TextField(
+            controller: amountController,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+            ),
+          ),
+          Text('Ngày'),
+          TextField(
+            controller: dateController,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+            ),
+          ),
+          Text('Diễn giải'),
+          TextField(
+            controller: descriptionController,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+            ),
+            minLines: 3,
+            maxLines: 3,
+          ),
+        ],
+      ),
     );
   }
 }
