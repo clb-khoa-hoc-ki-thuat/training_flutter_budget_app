@@ -3,13 +3,21 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
 class TransactionCreatingScreen extends StatelessWidget {
-  const TransactionCreatingScreen({super.key});
+  var transaction;
+
+  TransactionCreatingScreen(this.transaction);
 
   @override
   Widget build(BuildContext context) {
     var amountController = TextEditingController();
     var descriptionController = TextEditingController();
     var dateController = TextEditingController();
+
+    if (transaction != null) {
+      amountController.text = transaction.amount.toString();
+      dateController.text = transaction.date;
+      descriptionController.text = transaction.description;
+    }
 
     return Scaffold(
       appBar: AppBar(

@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors_in_immutables, prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -30,7 +32,7 @@ class _TransactionListScreenState extends State<TransactionListScreen> {
               Navigator.of(context)
                   .push(
                 MaterialPageRoute(
-                  builder: (context) => TransactionCreatingScreen(),
+                  builder: (context) => TransactionCreatingScreen(null),
                 ),
               )
                   .then((value) {
@@ -83,17 +85,47 @@ class _TransactionListScreenState extends State<TransactionListScreen> {
                     ),
                     title: Text(transaction.description),
                     subtitle: Text(transaction.date),
-                    trailing: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          transactionList
-                              .removeWhere((t) => transaction.id == t.id);
-                        });
-                      },
-                      icon: Icon(
-                        Icons.delete,
-                        color: Colors.red,
-                      ),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    TransactionCreatingScreen(transaction),
+                              ),
+                            ).then((value) {
+                              var updatingTransaction = transactionList
+                                  .firstWhere((t) => transaction.id == t.id);
+
+                              setState(() {
+                                updatingTransaction.amount = value['amount'];
+                                updatingTransaction.date = value['date'];
+                                updatingTransaction.description =
+                                    value['description'];
+                              });
+                            });
+                          },
+                          icon: Icon(
+                            Icons.edit,
+                            color: Colors.amber,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              transactionList
+                                  .removeWhere((t) => transaction.id == t.id);
+                            });
+                          },
+                          icon: Icon(
+                            Icons.delete,
+                            color: Colors.red,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
