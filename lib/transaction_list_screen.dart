@@ -158,6 +158,10 @@ class _TransactionListScreenState extends State<TransactionListScreen> {
                         IconButton(
                           onPressed: () {
                             setState(() {
+                              var url = Uri.parse(
+                                  'https://training-flutter-budget-app-default-rtdb.asia-southeast1.firebasedatabase.app/transactions/${transaction.id}.json');
+                              http.delete(url);
+
                               transactionList
                                   .removeWhere((t) => transaction.id == t.id);
                             });
