@@ -1,5 +1,5 @@
 class Transaction {
-  String id;
+  int id;
   String description;
   double amount;
   String date;
