@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:training_flutter_budget_app/transaction.dart';
 import 'package:training_flutter_budget_app/transaction_creating_screen.dart';
+import 'package:http/http.dart' as http;
 
 class TransactionListScreen extends StatefulWidget {
   TransactionListScreen({super.key});
@@ -12,12 +15,7 @@ class TransactionListScreen extends StatefulWidget {
 }
 
 class _TransactionListScreenState extends State<TransactionListScreen> {
-  var transactionList = [
-    Transaction(1, 'Mẹ cho', 30, '08/04/2023'),
-    Transaction(2, 'Ba cho', 40, '09/04/2023'),
-    Transaction(3, 'Ăn sáng', -25, '09/04/2023'),
-    Transaction(4, 'Ăn trưa', -35, '09/04/2023'),
-  ];
+  var transactionList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -34,20 +32,39 @@ class _TransactionListScreenState extends State<TransactionListScreen> {
                 ),
               )
                   .then((value) {
-                var id = transactionList[transactionList.length - 1].id + 1;
                 var amount = value['amount'];
                 var date = value['date'];
                 var description = value['description'];
 
-                var newTransaction = Transaction(
-                  id,
-                  description,
-                  amount,
-                  date,
-                );
+                var url = Uri.parse(
+                    'https://training-flutter-budget-app-default-rtdb.asia-southeast1.firebasedatabase.app/transactions.json');
 
-                setState(() {
-                  transactionList.add(newTransaction);
+                http
+                    .post(
+                  url,
+                  body: jsonEncode(
+                    {
+                      'amount': value['amount'],
+                      'description': value['description'],
+                      'date': value['date'],
+                    },
+                  ),
+                )
+                    .then((response) {
+                  var data = jsonDecode(response.body) as Map<String, dynamic>;
+
+                  String id = data['name'];
+
+                  var newTransaction = Transaction(
+                    id,
+                    description,
+                    amount,
+                    date,
+                  );
+
+                  setState(() {
+                    transactionList.add(newTransaction);
+                  });
                 });
               });
             },
