@@ -17,6 +17,36 @@ class TransactionListScreen extends StatefulWidget {
 class _TransactionListScreenState extends State<TransactionListScreen> {
   var transactionList = [];
 
+  void fetchData() {
+    var url = Uri.parse(
+        'https://training-flutter-budget-app-default-rtdb.asia-southeast1.firebasedatabase.app/transactions.json');
+
+    transactionList = [];
+
+    http.get(url).then((response) {
+      var data = jsonDecode(response.body) as Map<String, dynamic>;
+
+      data.forEach((key, value) {
+        var newTransaction = Transaction(
+          key,
+          value['description'],
+          value['amount'],
+          value['date'],
+        );
+
+        transactionList.add(newTransaction);
+      });
+
+      setState(() {});
+    });
+  }
+
+  @override
+  void initState() {
+    fetchData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
