@@ -139,14 +139,30 @@ class _TransactionListScreenState extends State<TransactionListScreen> {
                                     TransactionCreatingScreen(transaction),
                               ),
                             ).then((value) {
-                              var updatingTransaction = transactionList
-                                  .firstWhere((t) => transaction.id == t.id);
+                              var url = Uri.parse(
+                                  'https://training-flutter-budget-app-default-rtdb.asia-southeast1.firebasedatabase.app/transactions/${transaction.id}.json');
 
-                              setState(() {
-                                updatingTransaction.amount = value['amount'];
-                                updatingTransaction.date = value['date'];
-                                updatingTransaction.description =
-                                    value['description'];
+                              http
+                                  .put(
+                                url,
+                                body: jsonEncode(
+                                  {
+                                    'amount': value['amount'],
+                                    'date': value['date'],
+                                    'description': value['description'],
+                                  },
+                                ),
+                              )
+                                  .then((response) {
+                                var updatingTransaction = transactionList
+                                    .firstWhere((t) => transaction.id == t.id);
+
+                                setState(() {
+                                  updatingTransaction.amount = value['amount'];
+                                  updatingTransaction.date = value['date'];
+                                  updatingTransaction.description =
+                                      value['description'];
+                                });
                               });
                             });
                           },
